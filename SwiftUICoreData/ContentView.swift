@@ -28,6 +28,15 @@ struct ContentView: View {
             }
             .navigationTitle(Text("Memos"))
             .navigationBarTitleDisplayMode(.automatic)
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink {
+                        AddMemoView()
+                    } label: {
+                        Text("Add")
+                    }
+                }
+            }
         }
     }
 }
