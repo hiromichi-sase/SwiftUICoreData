@@ -17,8 +17,14 @@ struct AddMemoView: View {
     var body: some View {
         VStack {
             TextField("Title", text: $title)
+                .padding(EdgeInsets(top: .zero, leading: 10.0, bottom: .zero, trailing: 10.0))
+                .border(Color.gray)
 
             TextField("Content", text: $content)
+                .padding(EdgeInsets(top: .zero, leading: 10.0, bottom: .zero, trailing: 10.0))
+                .border(Color.gray)
+
+            Spacer()
 
             Button("Add") {
                 if title.isEmpty {
@@ -33,6 +39,8 @@ struct AddMemoView: View {
                 try? viewContext.save()
                 presentation.wrappedValue.dismiss()
             }
+            .buttonStyle(.bordered)
+            .tint(.blue)
             .alert(isPresented: $showDialog) {
                 Alert(title: Text("Title is empty"), message: Text("Please input title."))
             }
