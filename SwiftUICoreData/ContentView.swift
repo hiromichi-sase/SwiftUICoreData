@@ -25,6 +25,7 @@ struct ContentView: View {
                         Text(memo.title ?? "")
                     }
                 }
+                .onDelete(perform: deleteMemo)
             }
             .navigationTitle(Text("Memos"))
             .navigationBarTitleDisplayMode(.automatic)
@@ -38,6 +39,13 @@ struct ContentView: View {
                 }
             }
         }
+    }
+
+    private func deleteMemo(offset: IndexSet) {
+        offset.forEach { index in
+            viewContext.delete(memos[index])
+        }
+        try? viewContext.save()
     }
 }
 
