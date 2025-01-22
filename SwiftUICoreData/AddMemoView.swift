@@ -49,6 +49,8 @@ struct AddMemoView: View {
     }
 }
 
-#Preview {
-    AddMemoView()
+struct AddMemoView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddMemoView()
+    }
 }

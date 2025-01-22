@@ -55,6 +55,8 @@ struct EditMemoView: View {
     }
 }
 
-#Preview {
-    EditMemoView(memo: Memo())
+struct EditMemoView_Previews: PreviewProvider {
+    static var previews: some View {
+        EditMemoView(memo: Memo(context: PersistenceController.preview.container.viewContext))
+    }
 }
