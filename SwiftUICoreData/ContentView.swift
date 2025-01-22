@@ -21,8 +21,10 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(memos) { memo in
-                    VStack {
-                        Text(memo.title ?? "")
+                    NavigationLink(destination: EditMemoView(memo: memo)) {
+                        VStack {
+                            Text(memo.title ?? "")
+                        }
                     }
                 }
                 .onDelete(perform: deleteMemo)

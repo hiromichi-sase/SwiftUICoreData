@@ -10,15 +10,15 @@ import SwiftUI
 struct EditMemoView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentation
-    @State private var title: String = ""
-    @State private var content: String = ""
+    @State private var title: String
+    @State private var content: String
     @State private var showDialog: Bool = false
     private var memo: Memo
 
     init(memo: Memo) {
         self.memo = memo
-        self.title = title
-        self.content = content
+        self.title = memo.title ?? ""
+        self.content = memo.content ?? ""
     }
 
     var body: some View {
