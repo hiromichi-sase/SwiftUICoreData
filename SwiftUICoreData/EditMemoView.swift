@@ -22,36 +22,38 @@ struct EditMemoView: View {
     }
 
     var body: some View {
-        VStack {
-            TextField("Title", text: $title)
-                .padding(EdgeInsets(top: .zero, leading: 10.0, bottom: .zero, trailing: 10.0))
-                .border(Color.gray)
+        NavigationView {
+            VStack {
+                TextField("Title", text: $title)
+                    .border(Color.green)
+                
+                TextEditor(text: $content)
+                    .border(Color.green)
 
-            TextField("Content", text: $content)
-                .padding(EdgeInsets(top: .zero, leading: 10.0, bottom: .zero, trailing: 10.0))
-                .border(Color.gray)
-
-            Spacer()
-
-            Button("Save") {
-                if title.isEmpty {
-                    showDialog = true
-                    return
+                Spacer()
+                
+                Button("Save") {
+                    if title.isEmpty {
+                        showDialog = true
+                        return
+                    }
+                    
+                    memo.title = title
+                    memo.content = content
+                    
+                    try? viewContext.save()
+                    presentation.wrappedValue.dismiss()
                 }
-
-                memo.title = title
-                memo.content = content
-
-                try? viewContext.save()
-                presentation.wrappedValue.dismiss()
+                .buttonStyle(.bordered)
+                .tint(.green)
+                .alert(isPresented: $showDialog) {
+                    Alert(title: Text("Title is empty"), message: Text("Please input title."))
+                }
             }
-            .buttonStyle(.bordered)
-            .tint(.green)
-            .alert(isPresented: $showDialog) {
-                Alert(title: Text("Title is empty"), message: Text("Please input title."))
-            }
+            .padding()
         }
-        .padding()
+        .navigationTitle(Text("Edit memo"))
+        .navigationBarTitleDisplayMode(.automatic)
     }
 }
 
