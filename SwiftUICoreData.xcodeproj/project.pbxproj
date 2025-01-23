@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		45F6F7802D3DE40D00174223 /* Memo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F6F77E2D3DE40D00174223 /* Memo+CoreDataClass.swift */; };
-		45F6F7812D3DE40D00174223 /* Memo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F6F77F2D3DE40D00174223 /* Memo+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,9 +16,22 @@
 		45F6F77F2D3DE40D00174223 /* Memo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Memo+CoreDataProperties.swift"; path = "SwiftUICoreData/Memo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4510DDC92D41D6FD004F2334 /* Exceptions for "SwiftUICoreData" folder in "SwiftUICoreData" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Memo+CoreDataClass.swift",
+			);
+			target = 45F6F75B2D3DDA3A00174223 /* SwiftUICoreData */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		45F6F75E2D3DDA3A00174223 /* SwiftUICoreData */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4510DDC92D41D6FD004F2334 /* Exceptions for "SwiftUICoreData" folder in "SwiftUICoreData" target */,
+			);
 			path = SwiftUICoreData;
 			sourceTree = "<group>";
 		};
@@ -129,7 +141,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				45F6F7802D3DE40D00174223 /* Memo+CoreDataClass.swift in Sources */,
-				45F6F7812D3DE40D00174223 /* Memo+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
