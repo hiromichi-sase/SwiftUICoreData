@@ -10,12 +10,12 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
     @FetchRequest(
         entity: Memo.entity(),
         sortDescriptors: [NSSortDescriptor(key: "title", ascending: true)],
         animation: .default)
     private var memos: FetchedResults<Memo>
+    @State private var editMode: EditMode = .inactive
 
     var body: some View {
         NavigationView {
@@ -27,19 +27,24 @@ struct ContentView: View {
                         }
                     }
                 }
-                .onDelete(perform: deleteMemo)
+                .onDelete(perform: editMode.isEditing ? deleteMemo : nil)
             }
             .navigationTitle(Text("Memos"))
-            .navigationBarTitleDisplayMode(.automatic)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    EditButton()
+                }
+                ToolbarItemGroup(placement: .topBarTrailing) {
                     NavigationLink {
+                        editMode = .inactive
                         AddMemoView()
                     } label: {
                         Text("Add")
                     }
                 }
             }
+            .environment(\.editMode, $editMode)
         }
     }
 

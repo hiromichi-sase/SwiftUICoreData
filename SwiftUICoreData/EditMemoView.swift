@@ -53,7 +53,7 @@ struct EditMemoView: View {
             .padding()
         }
         .navigationTitle(Text("Edit memo"))
-        .navigationBarTitleDisplayMode(.automatic)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

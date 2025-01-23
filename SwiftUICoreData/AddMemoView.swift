@@ -47,7 +47,7 @@ struct AddMemoView: View {
             .padding()
         }
         .navigationTitle(Text("Add memo"))
-        .navigationBarTitleDisplayMode(.automatic)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
