@@ -37,7 +37,6 @@ struct ContentView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     NavigationLink {
-                        editMode = .inactive
                         AddMemoView()
                     } label: {
                         Text("Add")
