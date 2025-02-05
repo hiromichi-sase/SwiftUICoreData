@@ -27,7 +27,7 @@ struct EditMemoView: View {
                 TextField("Title", text: $title)
                     .border(Color.green)
                 
-                TextEditor(text: $content)
+                TextView(text: $content)
                     .border(Color.green)
 
                 Spacer()

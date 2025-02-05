@@ -20,7 +20,7 @@ struct AddMemoView: View {
                 TextField("Title", text: $title)
                     .border(Color.blue)
 
-                TextEditor(text: $content)
+                TextView(text: $content)
                     .border(Color.blue)
 
                 Spacer()
