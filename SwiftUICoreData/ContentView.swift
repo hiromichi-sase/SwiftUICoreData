@@ -16,6 +16,7 @@ struct ContentView: View {
         animation: .default)
     private var memos: FetchedResults<Memo>
     @State private var editMode: EditMode = .inactive
+    @State var memo: Memo?
 
     var body: some View {
         NavigationView {
@@ -27,7 +28,13 @@ struct ContentView: View {
                         }
                     }
                 }
-                .onDelete(perform: editMode.isEditing ? deleteMemo : nil)
+                .onDelete(perform: showDeleteAlert)
+                .alert(item: $memo) { memo in
+                    Alert(title: Text("Delete this memo?"),
+                          primaryButton: .destructive(Text("Delete")) {
+                        deleteMemo(memo: memo)
+                    }, secondaryButton: .cancel())
+                }
             }
             .navigationTitle(Text("Memos"))
             .navigationBarTitleDisplayMode(.inline)
@@ -47,10 +54,14 @@ struct ContentView: View {
         }
     }
 
-    private func deleteMemo(offset: IndexSet) {
-        offset.forEach { index in
-            viewContext.delete(memos[index])
+    private func showDeleteAlert(offsets: IndexSet) {
+        if let offset = offsets.first {
+            memo = memos[offset]
         }
+    }
+
+    private func deleteMemo(memo: Memo) {
+        viewContext.delete(memo)
         try? viewContext.save()
     }
 }
