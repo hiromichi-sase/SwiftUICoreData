@@ -22,10 +22,14 @@ struct AddMemoView: View {
 
                 TextView(text: $content)
                     .border(Color.blue)
-
-                Spacer()
-
-                Button("Add") {
+            }
+            .padding()
+        }
+        .navigationTitle(Text("Add memo"))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button("Save") {
                     if title.isEmpty {
                         showDialog = true
                         return
@@ -38,16 +42,11 @@ struct AddMemoView: View {
                     try? viewContext.save()
                     presentation.wrappedValue.dismiss()
                 }
-                .buttonStyle(.bordered)
-                .tint(.blue)
                 .alert(isPresented: $showDialog) {
                     Alert(title: Text("Title is empty"), message: Text("Please input title."))
                 }
             }
-            .padding()
         }
-        .navigationTitle(Text("Add memo"))
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

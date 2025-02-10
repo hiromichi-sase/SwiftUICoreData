@@ -29,31 +29,30 @@ struct EditMemoView: View {
                 
                 TextView(text: $content)
                     .border(Color.green)
-
-                Spacer()
-                
-                Button("Save") {
-                    if title.isEmpty {
-                        showDialog = true
-                        return
-                    }
-                    
-                    memo.title = title
-                    memo.content = content
-                    
-                    try? viewContext.save()
-                    presentation.wrappedValue.dismiss()
-                }
-                .buttonStyle(.bordered)
-                .tint(.green)
-                .alert(isPresented: $showDialog) {
-                    Alert(title: Text("Title is empty"), message: Text("Please input title."))
-                }
             }
             .padding()
         }
         .navigationTitle(Text("Edit memo"))
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button("Save") {
+                    if title.isEmpty {
+                        showDialog = true
+                        return
+                    }
+
+                    memo.title = title
+                    memo.content = content
+
+                    try? viewContext.save()
+                    presentation.wrappedValue.dismiss()
+                }
+                .alert(isPresented: $showDialog) {
+                    Alert(title: Text("Title is empty"), message: Text("Please input title."))
+                }
+            }
+        }
     }
 }
 
