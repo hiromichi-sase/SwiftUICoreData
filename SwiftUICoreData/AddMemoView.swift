@@ -19,6 +19,8 @@ struct AddMemoView: View {
             VStack {
                 TextField("Title", text: $title)
                     .border(Color.blue)
+                    .modifier(TextFieldClearButton(text: $title))
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 TextView(text: $content)
                     .border(Color.blue)
