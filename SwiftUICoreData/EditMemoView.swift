@@ -13,6 +13,7 @@ struct EditMemoView: View {
     @State private var title: String
     @State private var content: String
     @State private var showDialog: Bool = false
+    @State var path = NavigationPath()
     private var memo: Memo
 
     init(memo: Memo) {
@@ -22,7 +23,7 @@ struct EditMemoView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             VStack {
                 TextField("Title", text: $title)
                     .border(Color.green)
@@ -34,7 +35,7 @@ struct EditMemoView: View {
             }
             .padding()
         }
-        .navigationTitle(Text("Edit memo"))
+        .navigationTitle("Edit memo")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {

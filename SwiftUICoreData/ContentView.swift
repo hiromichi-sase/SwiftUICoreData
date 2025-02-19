@@ -17,15 +17,14 @@ struct ContentView: View {
     private var memos: FetchedResults<Memo>
     @State private var editMode: EditMode = .inactive
     @State var memo: Memo?
+    @State var path = NavigationPath()
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             List {
                 ForEach(memos) { memo in
                     NavigationLink(destination: EditMemoView(memo: memo)) {
-                        VStack {
-                            Text(memo.title ?? "")
-                        }
+                        Text(memo.title ?? "")
                     }
                 }
                 .onDelete(perform: showDeleteAlert)

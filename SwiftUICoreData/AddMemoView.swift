@@ -13,9 +13,10 @@ struct AddMemoView: View {
     @State private var title: String = ""
     @State private var content: String = ""
     @State private var showDialog: Bool = false
+    @State var path = NavigationPath()
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             VStack {
                 TextField("Title", text: $title)
                     .border(Color.blue)
@@ -27,7 +28,7 @@ struct AddMemoView: View {
             }
             .padding()
         }
-        .navigationTitle(Text("Add memo"))
+        .navigationTitle("Add memo")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
