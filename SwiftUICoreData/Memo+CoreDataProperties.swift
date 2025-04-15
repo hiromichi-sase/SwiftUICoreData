@@ -16,8 +16,8 @@ extension Memo {
         return NSFetchRequest<Memo>(entityName: "Memo")
     }
 
-    @NSManaged public var title: String?
-    @NSManaged public var content: String?
+    @NSManaged public var title: String
+    @NSManaged public var content: String
 
 }
 

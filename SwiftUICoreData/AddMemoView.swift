@@ -10,43 +10,29 @@ import SwiftUI
 struct AddMemoView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentation
-    @State private var title: String = ""
+    @State private var title: String = "(Title)"
     @State private var content: String = ""
-    @State private var showDialog: Bool = false
     @State var path = NavigationPath()
 
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                TextField("Title", text: $title)
-                    .border(Color.blue)
-                    .modifier(TextFieldClearButton(text: $title))
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-
                 TextView(text: $content)
                     .border(Color.blue)
             }
             .padding()
         }
-        .navigationTitle("Add memo")
+        .navigationTitle($title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Save") {
-                    if title.isEmpty {
-                        showDialog = true
-                        return
-                    }
-
                     let memo = Memo(context: viewContext)
                     memo.title = title
                     memo.content = content
 
                     try? viewContext.save()
                     presentation.wrappedValue.dismiss()
-                }
-                .alert(isPresented: $showDialog) {
-                    Alert(title: Text("Title is empty"), message: Text("Please input title."))
                 }
             }
         }

@@ -12,47 +12,33 @@ struct EditMemoView: View {
     @Environment(\.presentationMode) var presentation
     @State private var title: String
     @State private var content: String
-    @State private var showDialog: Bool = false
     @State var path = NavigationPath()
     private var memo: Memo
 
     init(memo: Memo) {
         self.memo = memo
-        self.title = memo.title ?? ""
-        self.content = memo.content ?? ""
+        self.title = memo.title
+        self.content = memo.content
     }
 
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                TextField("Title", text: $title)
-                    .border(Color.green)
-                    .modifier(TextFieldClearButton(text: $title))
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-
                 TextView(text: $content)
                     .border(Color.green)
             }
             .padding()
         }
-        .navigationTitle("Edit memo")
+        .navigationTitle($title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Save") {
-                    if title.isEmpty {
-                        showDialog = true
-                        return
-                    }
-
                     memo.title = title
                     memo.content = content
 
                     try? viewContext.save()
                     presentation.wrappedValue.dismiss()
-                }
-                .alert(isPresented: $showDialog) {
-                    Alert(title: Text("Title is empty"), message: Text("Please input title."))
                 }
             }
         }

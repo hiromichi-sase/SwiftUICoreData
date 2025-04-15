@@ -24,7 +24,7 @@ struct ContentView: View {
             List {
                 ForEach(memos) { memo in
                     NavigationLink(destination: EditMemoView(memo: memo)) {
-                        Text(memo.title ?? "")
+                        Text(memo.title)
                     }
                 }
                 .onDelete(perform: showDeleteAlert)
