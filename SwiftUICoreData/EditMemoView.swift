@@ -13,23 +13,26 @@ struct EditMemoView: View {
     @State private var title: String
     @State private var content: String
     @State var path = NavigationPath()
+    @State var disabled: Bool
     private var memo: Memo
 
-    init(memo: Memo) {
+    init(memo: Memo, disabled: Bool = false) {
         self.memo = memo
         self.title = memo.title
         self.content = memo.content
+        self.disabled = disabled
     }
 
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
                 TextView(text: $content)
-                    .border(Color.green)
+                    .border(disabled ? .clear : Color.green)
+                    .disabled(disabled)
             }
             .padding()
         }
-        .navigationTitle($title)
+        .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {

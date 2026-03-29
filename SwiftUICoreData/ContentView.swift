@@ -17,6 +17,7 @@ struct ContentView: View {
     private var memos: FetchedResults<Memo>
     @State private var editMode: EditMode = .inactive
     @State var memo: Memo?
+    @State private var sheetMemo: Memo?
     @State var path = NavigationPath()
 
     var body: some View {
@@ -26,6 +27,9 @@ struct ContentView: View {
                     NavigationLink(destination: EditMemoView(memo: memo)) {
                         Text(memo.title)
                     }
+                    .onLongPressGesture {
+                        sheetMemo = memo
+                    }
                 }
                 .onDelete(perform: showDeleteAlert)
                 .alert(item: $memo) { memo in
@@ -34,6 +38,9 @@ struct ContentView: View {
                         deleteMemo(memo: memo)
                     }, secondaryButton: .cancel())
                 }
+            }
+            .sheet(item: $sheetMemo) { memo in
+                EditMemoView(memo: memo, disabled: true)
             }
             .navigationTitle(Text("Memos"))
             .navigationBarTitleDisplayMode(.inline)
