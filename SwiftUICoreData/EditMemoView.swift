@@ -32,7 +32,7 @@ struct EditMemoView: View {
             }
             .padding()
         }
-        .navigationTitle(title)
+        .navigationTitle($title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
