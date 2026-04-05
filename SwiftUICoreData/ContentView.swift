@@ -19,7 +19,6 @@ struct ContentView: View {
     @State private var editMode: EditMode = .inactive
     @State private var memoToDelete: Memo?
     @State private var memoToPush: Memo?
-    @State private var memoToPresent: Memo?
     @State private var path = NavigationPath()
 
     var body: some View {
@@ -27,18 +26,29 @@ struct ContentView: View {
             List {
                 ForEach(memos) { memo in
                     Button {
-                        memoToPush = memo
+                        if editMode == .inactive {
+                            memoToPush = memo
+                        }
                     } label: {
                         Text(memo.title)
                     }
                     .tint(.primary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
-                    .simultaneousGesture(
-                        LongPressGesture().onEnded { _ in
-                            memoToPresent = memo
+                    .contextMenu {
+                        if editMode == .inactive {
+                            Button("Edit") {
+                                memoToPush = memo
+                            }
+                            Button("Delete", role: .destructive) {
+                                memoToDelete = memo
+                            }
                         }
-                    )
+                    } preview: {
+                        if editMode == .inactive {
+                            EditMemoView(memo: memo, disabled: true)
+                        }
+                    }
                 }
                 .onDelete(perform: showDeleteAlert)
                 .alert(item: $memoToDelete) { memo in
@@ -50,9 +60,6 @@ struct ContentView: View {
             }
             .navigationDestination(item: $memoToPush) { memo in
                 EditMemoView(memo: memo, disabled: false)
-            }
-            .sheet(item: $memoToPresent) { memo in
-                EditMemoView(memo: memo, disabled: true)
             }
             .navigationTitle(Text("Memos"))
             .navigationBarTitleDisplayMode(.inline)
