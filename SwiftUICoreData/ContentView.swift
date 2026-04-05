@@ -14,32 +14,44 @@ struct ContentView: View {
         entity: Memo.entity(),
         sortDescriptors: [NSSortDescriptor(key: "title", ascending: true)],
         animation: .default)
+
     private var memos: FetchedResults<Memo>
     @State private var editMode: EditMode = .inactive
-    @State var memo: Memo?
-    @State private var sheetMemo: Memo?
-    @State var path = NavigationPath()
+    @State private var memoToDelete: Memo?
+    @State private var memoToPush: Memo?
+    @State private var memoToPresent: Memo?
+    @State private var path = NavigationPath()
 
     var body: some View {
         NavigationStack(path: $path) {
             List {
                 ForEach(memos) { memo in
-                    NavigationLink(destination: EditMemoView(memo: memo)) {
+                    Button {
+                        memoToPush = memo
+                    } label: {
                         Text(memo.title)
                     }
-                    .onLongPressGesture {
-                        sheetMemo = memo
-                    }
+                    .tint(.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .simultaneousGesture(
+                        LongPressGesture().onEnded { _ in
+                            memoToPresent = memo
+                        }
+                    )
                 }
                 .onDelete(perform: showDeleteAlert)
-                .alert(item: $memo) { memo in
+                .alert(item: $memoToDelete) { memo in
                     Alert(title: Text("Delete this memo?"),
                           primaryButton: .destructive(Text("Delete")) {
                         deleteMemo(memo: memo)
                     }, secondaryButton: .cancel())
                 }
             }
-            .sheet(item: $sheetMemo) { memo in
+            .navigationDestination(item: $memoToPush) { memo in
+                EditMemoView(memo: memo, disabled: false)
+            }
+            .sheet(item: $memoToPresent) { memo in
                 EditMemoView(memo: memo, disabled: true)
             }
             .navigationTitle(Text("Memos"))
@@ -62,7 +74,7 @@ struct ContentView: View {
 
     private func showDeleteAlert(offsets: IndexSet) {
         if let offset = offsets.first {
-            memo = memos[offset]
+            memoToDelete = memos[offset]
         }
     }
 
