@@ -35,20 +35,6 @@ struct ContentView: View {
                     .tint(.primary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
-                    .contextMenu {
-                        if editMode == .inactive {
-                            Button("Edit") {
-                                memoToPush = memo
-                            }
-                            Button("Delete", role: .destructive) {
-                                memoToDelete = memo
-                            }
-                        }
-                    } preview: {
-                        if editMode == .inactive {
-                            EditMemoView(memo: memo, disabled: true)
-                        }
-                    }
                 }
                 .onDelete(perform: showDeleteAlert)
                 .alert(item: $memoToDelete) { memo in
