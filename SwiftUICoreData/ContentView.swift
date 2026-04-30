@@ -37,10 +37,10 @@ struct ContentView: View {
                     .contentShape(Rectangle())
                     .contextMenu {
                         if editMode == .inactive {
-                            Button("Edit") {
+                            Button("Edit", systemImage: "pencil") {
                                 memoToPush = memo
                             }
-                            Button("Delete", role: .destructive) {
+                            Button("Delete", systemImage: "trash", role: .destructive) {
                                 memoToDelete = memo
                             }
                         }
