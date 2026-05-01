@@ -35,10 +35,9 @@ struct EditMemoView: View {
             }
             .padding()
             .onReceive(memo.objectWillChange) { _ in
-                if disabled {
-                    title = memo.title
-                    content = memo.content
-                }
+                guard disabled else { return }
+                title = memo.title
+                content = memo.content
             }
         }
         .navigationTitle($title)

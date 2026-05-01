@@ -9,9 +9,11 @@ import SwiftUI
 
 struct AddMemoView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.dismiss) private var dismiss
+
     @State private var title: String = "(Title)"
     @State private var content: String = ""
+
     @State var path = NavigationPath()
 
     var body: some View {
@@ -30,9 +32,8 @@ struct AddMemoView: View {
                     let memo = Memo(context: viewContext)
                     memo.title = title
                     memo.content = content
-
                     try? viewContext.save()
-                    presentation.wrappedValue.dismiss()
+                    dismiss()
                 }
             }
         }
