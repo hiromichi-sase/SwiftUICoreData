@@ -9,18 +9,21 @@ import SwiftUI
 
 struct EditMemoView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.dismiss) private var dismiss
+
+    @ObservedObject private var memo: Memo
+
     @State private var title: String
     @State private var content: String
+
     @State var path = NavigationPath()
     @State var disabled: Bool
-    private var memo: Memo
 
     init(memo: Memo, disabled: Bool = false) {
-        self.memo = memo
-        self.title = memo.title
-        self.content = memo.content
-        self.disabled = disabled
+        self._memo = ObservedObject(initialValue: memo)
+        self._title = State(initialValue: memo.title)
+        self._content = State(initialValue: memo.content)
+        self._disabled = State(initialValue: disabled)
     }
 
     var body: some View {
@@ -31,18 +34,25 @@ struct EditMemoView: View {
                     .disabled(disabled)
             }
             .padding()
+            .onReceive(memo.objectWillChange) { _ in
+                if disabled {
+                    title = memo.title
+                    content = memo.content
+                }
+            }
         }
         .navigationTitle($title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Save") {
+                    guard !disabled else { return }
                     memo.title = title
                     memo.content = content
-
                     try? viewContext.save()
-                    presentation.wrappedValue.dismiss()
+                    dismiss()
                 }
+                .disabled(disabled)
             }
         }
     }
@@ -50,6 +60,10 @@ struct EditMemoView: View {
 
 struct EditMemoView_Previews: PreviewProvider {
     static var previews: some View {
-        EditMemoView(memo: Memo(context: PersistenceController.preview.container.viewContext))
+        let context = PersistenceController.preview.container.viewContext
+        let memo = Memo(context: context)
+        memo.content = "Sample Content"
+        return EditMemoView(memo: memo)
+            .environment(\.managedObjectContext, context)
     }
 }

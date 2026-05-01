@@ -22,7 +22,9 @@ struct TextView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UITextView, context: Context) {
-        uiView.text = text
+        if uiView.text != text {
+            uiView.text = text
+        }
     }
 }
 
