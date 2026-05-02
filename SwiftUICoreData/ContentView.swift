@@ -46,7 +46,7 @@ struct ContentView: View {
                         }
                     } preview: {
                         if editMode == .inactive {
-                            EditMemoView(memo: memo, disabled: true)
+                            PreviewMemoView(memo: memo)
                         }
                     }
                 }
