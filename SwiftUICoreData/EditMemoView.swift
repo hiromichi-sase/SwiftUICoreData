@@ -29,9 +29,8 @@ struct EditMemoView: View {
     var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                TextView(text: $content)
+                TextView(text: $content, isEditable: .constant(!disabled))
                     .border(disabled ? .clear : Color.green)
-                    .disabled(disabled)
             }
             .padding()
             .onReceive(memo.objectWillChange) { _ in

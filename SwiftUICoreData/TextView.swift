@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TextView: UIViewRepresentable {
     @Binding var text: String
+    @Binding var isEditable: Bool
 
     func makeCoordinator() -> Coordinator {
         Coordinator($text)
@@ -18,6 +19,8 @@ struct TextView: UIViewRepresentable {
         let textView = UITextView()
         textView.delegate = context.coordinator
         textView.font = UIFont.systemFont(ofSize: 16)
+        textView.isEditable = isEditable
+        textView.dataDetectorTypes = .all
         return textView
     }
 
