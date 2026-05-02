@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EditMemoView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.dismiss) private var dismiss
 
     @ObservedObject private var memo: Memo
 
@@ -19,7 +18,7 @@ struct EditMemoView: View {
     @State var path = NavigationPath()
     @State var disabled: Bool
 
-    init(memo: Memo, disabled: Bool = false) {
+    init(memo: Memo, disabled: Bool) {
         self._memo = ObservedObject(initialValue: memo)
         self._title = State(initialValue: memo.title)
         self._content = State(initialValue: memo.content)
@@ -39,29 +38,49 @@ struct EditMemoView: View {
                 content = memo.content
             }
         }
-        .navigationTitle($title)
+        .navigationTitle($title, disabled: disabled)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
-                Button("Save") {
-                    guard !disabled else { return }
-                    memo.title = title
-                    memo.content = content
-                    try? viewContext.save()
-                    dismiss()
+                if disabled {
+                    Button("Edit") {
+                        disabled = false
+                    }
+                } else {
+                    Button("Save") {
+                        guard !disabled else { return }
+                        memo.title = title
+                        memo.content = content
+                        try? viewContext.save()
+                        disabled = true
+                    }
                 }
-                .disabled(disabled)
+
             }
         }
     }
 }
 
-struct EditMemoView_Previews: PreviewProvider {
+struct Disabled_True_Previews: PreviewProvider {
     static var previews: some View {
         let context = PersistenceController.preview.container.viewContext
         let memo = Memo(context: context)
         memo.content = "Sample Content"
-        return EditMemoView(memo: memo)
-            .environment(\.managedObjectContext, context)
+        return NavigationStack {
+            EditMemoView(memo: memo, disabled: true)
+                .environment(\.managedObjectContext, context)
+        }
+    }
+}
+
+struct Disabled_False_Previews: PreviewProvider {
+    static var previews: some View {
+        let context = PersistenceController.preview.container.viewContext
+        let memo = Memo(context: context)
+        memo.content = "Sample Content"
+        return NavigationStack {
+            EditMemoView(memo: memo, disabled: false)
+                .environment(\.managedObjectContext, context)
+        }
     }
 }

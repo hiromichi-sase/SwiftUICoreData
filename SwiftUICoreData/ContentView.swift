@@ -59,7 +59,7 @@ struct ContentView: View {
                 }
             }
             .navigationDestination(item: $memoToPush) { memo in
-                EditMemoView(memo: memo, disabled: false)
+                EditMemoView(memo: memo, disabled: true)
             }
             .navigationTitle(Text("Memos"))
             .navigationBarTitleDisplayMode(.inline)
