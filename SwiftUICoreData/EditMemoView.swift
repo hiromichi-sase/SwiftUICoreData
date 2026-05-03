@@ -40,7 +40,15 @@ struct EditMemoView: View {
         }
         .navigationTitle($title, disabled: disabled)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(!disabled)
         .toolbar {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                if !disabled {
+                    Button("Cancel") {
+                        disabled = true
+                    }
+                }
+            }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if disabled {
                     Button("Edit") {
