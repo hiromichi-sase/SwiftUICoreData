@@ -29,7 +29,7 @@ struct EditMemoView: View {
         NavigationStack(path: $path) {
             VStack {
                 TextView(text: $content, isEditable: .constant(!disabled))
-                    .border(disabled ? .clear : Color.green)
+                    .border(disabled ? .clear : .primary)
             }
             .padding()
             .onReceive(memo.objectWillChange) { _ in
