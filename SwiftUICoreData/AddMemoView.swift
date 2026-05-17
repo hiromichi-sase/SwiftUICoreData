@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct AddMemoView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -29,9 +30,16 @@ struct AddMemoView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Save") {
+                    let fetchquest = NSFetchRequest<Memo>(entityName: "Memo")
+                    let count = (try? viewContext.fetch(fetchquest))?.count ?? .zero
+
                     let memo = Memo(context: viewContext)
+                    memo.id = UUID()
                     memo.title = title
                     memo.content = content
+                    memo.createdAt = Date()
+                    memo.updatedAt = Date()
+                    memo.order = count + 1
                     try? viewContext.save()
                     dismiss()
                 }
